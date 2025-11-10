@@ -1,24 +1,30 @@
 describe('Login', () => {
-  it('Login com dados válidos deve permitir acesso ao sistema', () => {
+  beforeEach(() => {
     // Arrange
     cy.visit('http://localhost:4000')
+  });
+
+  it('Login com dados válidos deve permitir acesso ao sistema', () => {
 
     // Act
-    cy.get('#username').click().type('odila.vasquez')
-    cy.get('#senha').click().type('079563')
-    cy.get('#login-section > .btn').click()
+    cy.fixture('credenciais').then(credenciais=> {
+      cy.get('#username').click().type(credenciais.valida.usuario)
+      cy.get('#senha').click().type(credenciais.valida.senha)
+    });
+    cy.contains('button', 'Entrar').click()
+    cy.screenshot('apos-click-botao-entrar')
 
     // Assert
     cy.contains('h4', 'Realizar Transferência').should('be.visible')
-  })
+  });
 
   it('Login com dados inválidos deve apresentar mensagem de erro', () => {
-    // Arrange
-    cy.visit('http://localhost:4000')
 
     // Act
-    cy.get('#username').click().type('odila.vasquez')
-    cy.get('#senha').click().type('112233')
+    cy.fixture('credenciais').then(credenciais=> {
+      cy.get('#username').click().type(credenciais.invalida.usuario)
+      cy.get('#senha').click().type(credenciais.invalida.senha)
+    });
     cy.contains('button', 'Entrar').click()
 
     // Assert
