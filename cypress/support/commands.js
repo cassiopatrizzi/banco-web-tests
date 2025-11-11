@@ -23,3 +23,9 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+// Custom commands can be added here
+
+import './commands/loginCommands';
+import './commands/transferenciaCommands';
+import './commands/common';
